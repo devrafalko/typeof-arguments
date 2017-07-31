@@ -1,0 +1,23 @@
+{
+  "name": "typeof-arguments",
+  "version": "2.0.1",
+  "description": "Validate the types of arguments passed to the function.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "typeof",
+    "arguments",
+    "validation",
+    "validate",
+    "function",
+    "parameters"
+  ],
+  "author": "Paweł Rafałko",
+  "license": "MIT",
+  "dependencies": {
+    "of-type": "^1.0.6",
+    "cli-color": "^1.2.0"
+  }
+}

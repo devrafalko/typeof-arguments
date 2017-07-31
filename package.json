@@ -19,5 +19,13 @@
   "dependencies": {
     "of-type": "^1.0.6",
     "cli-color": "^1.2.0"
+  },
+  "homepage": "https://github.com/devrafalko/typeof-arguments#readme",
+  "bugs": {
+    "url": "https://github.com/devrafalko/typeof-arguments/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/devrafalko/typeof-arguments.git"
   }
 }

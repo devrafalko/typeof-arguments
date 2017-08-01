@@ -45,10 +45,12 @@ function hello(paramA,paramB){
 * if **passed**, the default TypeError **will not be thrown** to the console and the user can decide what to do inside the `callback` function.
 * Use callback function if you don't want to stop your code execution by default *(no callback)* **`throw`** statement!
 * the `callback` function is executed **only** if at least one argument passed through the enclosing function is of invalid type.
-* the parameter **`actual`** [String], **`expected`** [String] and **msg** [String] is passed through the callback function:
+* The one [Object] argument is passed through `callback` function with the following properties:
+  * `index` indicates the [Number] index of the incorrect argument passed through the enclosing function, eg. `0`, `1`
   * `actual` indicates the actual type of the argument passed through the enclosing function, eg. `'[String]'`
   * `expected` indicates the type(s) expected by the user, eg. `'[Array]'`, `'[Boolean|Number]'`, `/array|object/i`
-  * `msg` is the default error [String] message, that you can use for example to throw an error in the callback function
+  * `message` is the default error [String] message, that you can use for example to throw an error in the callback function
+
 
 ```javascript
 var args = require('typeof-arguments');
@@ -56,16 +58,16 @@ var args = require('typeof-arguments');
 hello(10, "hello!");
 
 function hello(paramA,paramB){
-  args(arguments,['any','string|number'],(actual,expected,msg)=>{
-    console.error(msg);
-    //throw new Error("Aborted! " + msg);
+  args(arguments,['any','string|number'],(o)=>{
+    console.error(o.message);
+    //console.error('Not good! Use ' + o.expected + ' instead of ' + o.actual + ' for argument ' + o.index);
+    //throw new Error("Aborted! " + o.message);
   });
 }
 ```
 
 #### Return value
-The function `args()` returns `true` when all arguments passed through the enclosing function are of **valid** types.
-
+The function `args()` returns `true` when all arguments passed through the enclosing function are of **valid** types.  
 The function `args()` returns `false` when at least **one** of the arguments passed through the enclosing function is of **invalid** type.
 
 ```javascript
@@ -76,7 +78,7 @@ hello("hello","world!");
 function hello(paramA,paramB){
   var areValid = args(arguments,['string','string']);
   if(!areValid) return; //stop executing code if at least one argument is of invalid type
-  return paramA + " " + paramB;
+  //your code here...
 }
 ```
 

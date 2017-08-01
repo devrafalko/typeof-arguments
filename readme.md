@@ -46,10 +46,14 @@ function hello(paramA,paramB){
 * Use callback function if you don't want to stop your code execution by default *(no callback)* **`throw`** statement!
 * the `callback` function is executed **only** if at least one argument passed through the enclosing function is of invalid type.
 * The one [Object] argument is passed through `callback` function with the following properties:
-  * `index` indicates the [Number] index of the incorrect argument passed through the enclosing function, eg. `0`, `1`
-  * `actual` indicates the actual type of the argument passed through the enclosing function, eg. `'[String]'`
-  * `expected` indicates the type(s) expected by the user, eg. `'[Array]'`, `'[Boolean|Number]'`, `/array|object/i`
-  * `message` is the default error [String] message, that you can use for example to throw an error in the callback function
+  * **`index`**  
+    indicates the [Number] index of the incorrect argument passed through the enclosing function, eg. `0`, `1`
+  * **`actual`**  
+    indicates the actual type of the argument passed through the enclosing function, eg. `'[String]'`
+  * **`expected`**  
+    indicates the type(s) expected by the user, eg. `'[Array]'`, `'[Boolean|Number]'`, `/array|object/i`
+  * **`message`**  
+    is the default error [String] message, that you can use for example to throw an error in the callback function
 
 
 ```javascript

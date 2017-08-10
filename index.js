@@ -1,7 +1,7 @@
 const ofType = require('of-type');
 const cliColor = require('cli-color');
 const error = cliColor.red;
-const warn = cliColor.bgYellow.black;
+const warn = cliColor.bgYellow.blue;
 module.exports = function(a,o,c){
   const errArguments = warn('typeof-arguments')+': '+error('Invalid module argument. The first argument must indicate [Object Arguments] object.');
   const errTypes = warn('typeof-arguments')+': '+error('Invalid module argument. The second argument must be of type [Array].');

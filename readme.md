@@ -18,7 +18,7 @@ var args = require('typeof-arguments');
 * It should contain the list of **expected types** for each *(or chosen)* enclosing function parameter. The **`types[2]`** specifies the expected type(s) of **`arguments[2]`**, etc.
 * Possible values: `'null'`, `'undefined'`, or any value equal to `constructor.name`, eg. `'string'`, `'number'`, `'regexp'`, `'array'`, `'object'`, `'boolean'`,`'buffer'`, etc.
 * The **`types`** [String] is case insensitive: `'String'`, `'string'`, `'StRiNg'` checks if the **`arguments`** item is of type [String]. For **`types`** [RegExp] case insensitivity use `i` flag, eg.: `/String/`, `/string/i`, `/sTrInG/i`
-* The **`types`** [String] can contain multiple allowed types, separated with `|`, eg: `'array|object'`, `'boolean|number|null|undefined'`, `string|number`. For **`types`** [RegExp] multiple values use `(x|y)` expression, eg: `/(string|number)/i`
+* The **`types`** [String] can contain multiple allowed types, separated with `|`, eg: `'array|object'`, `'boolean|number|null|undefined'`, `'string|number'`. For **`types`** [RegExp] multiple values use `(x|y)` expression, eg: `/(string|number)/i`
 
 ##### Extra types:
 * The **`types`** can contain the value: `'arguments'`. It returns `true` for the `arguments` Object

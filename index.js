@@ -47,7 +47,7 @@ module.exports = function(a,o,c){
         })();
       var msg = `Invalid argument [${x}]. The [${act}] ${truthyFalsy}argument has been passed, while the ${isStr ? `[${exp}] one`:`argument of the type matching the regular expression: ${exp}`} is expected.`;
       if(clb){
-        c({actual:act,expected:exp,message:msg,index:x});
+        c({actual:act,expected:exp,message:msg,index:Number(x)});
       } else {
         var err = new TypeError(error(msg));
         throw err;

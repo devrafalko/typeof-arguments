@@ -4,7 +4,7 @@
   "description": "Validate the types of arguments passed to the function.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node tests/jasmine.conf.js"
   },
   "keywords": [
     "typeof",
@@ -17,8 +17,8 @@
   "author": "Paweł Rafałko",
   "license": "MIT",
   "dependencies": {
-    "of-type": "^1.0.6",
-    "cli-color": "^1.2.0"
+    "cli-color": "^1.2.0",
+    "of-type": "^2.1.0"
   },
   "homepage": "https://github.com/devrafalko/typeof-arguments#readme",
   "bugs": {
@@ -27,5 +27,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/devrafalko/typeof-arguments.git"
+  },
+  "devDependencies": {
+    "jasmine": "^2.8.0",
+    "jasmine-spec-reporter": "^4.2.1"
   }
 }

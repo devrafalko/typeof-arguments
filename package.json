@@ -1,6 +1,6 @@
 {
   "name": "typeof-arguments",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "Validate the types of arguments passed to the function.",
   "main": "index.js",
   "scripts": {

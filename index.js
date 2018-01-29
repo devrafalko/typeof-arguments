@@ -7,7 +7,7 @@ const warn = cliColor.blue.bgYellow;
 module.exports = function(getArgumentsObject,getExpectedArray,callbackFunction){
   const clb = ofType(callbackFunction,'function');
   validateArguments(getArgumentsObject,getExpectedArray);
-  for(let item in getExpectedArray){
+  Object.keys(getExpectedArray).forEach((item)=>{
     if(!ofType(getArgumentsObject[item],getExpectedArray[item])){
       var actual = getActualType(getArgumentsObject[item]);
       var types = getExpectedTypes(getExpectedArray[item]);
@@ -20,7 +20,7 @@ module.exports = function(getArgumentsObject,getExpectedArray,callbackFunction){
         throw err;
       }
     }
-  }
+  });
   return true;
 };
 
@@ -48,8 +48,8 @@ function getActualType(actualValue){
 
 function getExpectedTypes(expectedType){
   var types = [whenString,whenRegExp,whenObject,whenArray];
-  for(var i in types){
-    var check = types[i](expectedType);
+  for(var type of types){
+    var check = type(expectedType);
     if(check) return check;
   }
   const err = warn('typeof-arguments')+': '+error(`The expected type is not callable.`);
@@ -92,8 +92,8 @@ function whenObject(objectType){
 function whenArray(arrayTypes){
   if(!ofType(arrayTypes,Array)) return null;
   var types = {};
-  for(var i in arrayTypes){
-    var exp = whenObject(arrayTypes[i]);
+  for(var type of arrayTypes){
+    var exp = whenObject(type);
     if(ofType(exp,null)) return null;
     types[exp.expected] = exp.expected;
   }

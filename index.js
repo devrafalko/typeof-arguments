@@ -7,20 +7,20 @@ const warn = cliColor.blue.bgYellow;
 module.exports = function(getArgumentsObject,getExpectedArray,callbackFunction){
   const clb = ofType(callbackFunction,'function');
   validateArguments(getArgumentsObject,getExpectedArray);
-  Object.keys(getExpectedArray).forEach((item)=>{
-    if(!ofType(getArgumentsObject[item],getExpectedArray[item])){
-      var actual = getActualType(getArgumentsObject[item]);
-      var types = getExpectedTypes(getExpectedArray[item]);
-      var message = `Invalid argument [${item}]. The [${actual}] ${types.truthness}argument has been passed, while the ${types.message} is expected.`;
+  for(var i=0;i<getExpectedArray.length;i++){
+    if(!ofType(getArgumentsObject[i],getExpectedArray[i])){
+      var actual = getActualType(getArgumentsObject[i]);
+      var types = getExpectedTypes(getExpectedArray[i]);
+      var message = `Invalid argument [${i}]. The [${actual}] ${types.truthness}argument has been passed, while the ${types.message} is expected.`;
       if(clb){
-        callbackFunction({actual:actual,expected:types.expected,message:message,index:Number(item)});
+        callbackFunction({actual:actual,expected:types.expected,message:message,index:Number(i)});
         return false;
       } else {
         var err = new TypeError(message);
         throw err;
       }
     }
-  });
+  }
   return true;
 };
 

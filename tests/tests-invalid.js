@@ -1,4 +1,4 @@
-/* global expect */
+/* global jasmine, describe, expect, it */
 const path = require('path');
 const type = require(path.resolve('./index.js'));
 const scenario = require('./scenarios-invalid.js');

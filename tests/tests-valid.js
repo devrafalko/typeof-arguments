@@ -1,10 +1,10 @@
-/* global expect */
+/* global jasmine, describe, expect, it */
 const path = require('path');
 const type = require(path.resolve('./index.js'));
 const scenario = require('./scenarios-valid.js');
 
 describe('The module function should not throw error and run callback function',function(){
-  it(`when the expected array is empty`,function(){
+  it('when the expected array is empty',function(){
     let clb = jasmine.createSpy('clb');
     let binded = test.bind(this,'Paul',22);
     expect(binded()).toBe(true);

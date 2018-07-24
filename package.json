@@ -17,8 +17,7 @@
   "author": "Paweł Rafałko",
   "license": "MIT",
   "dependencies": {
-    "cli-color": "^1.2.0",
-    "of-type": "^2.1.0"
+    "of-type": "^2.2.0"
   },
   "homepage": "https://github.com/devrafalko/typeof-arguments#readme",
   "bugs": {
@@ -29,7 +28,7 @@
     "url": "git+https://github.com/devrafalko/typeof-arguments.git"
   },
   "devDependencies": {
-    "jasmine": "^2.8.0",
+    "jasmine": "^3.1.0",
     "jasmine-spec-reporter": "^4.2.1"
   }
 }

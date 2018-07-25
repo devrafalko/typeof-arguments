@@ -1,6 +1,6 @@
 /* global jasmine, describe, expect, it */
 const path = require('path');
-const type = require(path.resolve('./index.js'));
+const type = require(path.resolve('./src/index.js'));
 const scenario = require('./scenarios-invalid.js');
 
 describe('When the argument is of invalid type, the module function',function(){

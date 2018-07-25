@@ -1,6 +1,6 @@
 /* global describe, expect, it */
 const path = require('path');
-const type = require(path.resolve('./index.js'));
+const type = require(path.resolve('./src/index.js'));
 const scenario = require('./scenarios-arguments.js');
 
 describe('When the module function type() is called',function(){

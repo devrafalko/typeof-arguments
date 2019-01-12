@@ -1,37 +1,50 @@
 # Description
-`typeof-arguments` is a module that validates arguments' types passed to the enclosing function.
-* Any bugs found? Give me to know on [GitHub](https://github.com/devrafalko/typeof-arguments)
-* Also check out [**`of-type`**](https://www.npmjs.com/package/of-type) package that checks whether the given value is of particular type *(`typeof-arguments` is based on `of-type` package)*.
-* Also check out [**`typeof-properties`**](https://www.npmjs.com/package/typeof-properties) to validate value types of the properties of objects.
+`typeof-arguments` validates the arguments' types passed through the enclosing function.
 
-# Installation
-### Node
+* Also see [`of-type`](https://www.npmjs.com/package/of-type) package to check if the given value|object is of expected type.
+* Also see [`typeof-properties`](https://www.npmjs.com/package/typeof-properties) to validate the object's properties' type.
+
+# Implementation
+
+#### with NodeJS
 `npm install typeof-arguments`
 
 ```javascript
 const type = require('typeof-arguments');
 ```
 
-### Browsers
-Load the `typeof-arguments.min.js` file from the `src` folder into your `.html` file.  
-The module is accessible as `typeofArguments` in the global scope.  
-It is a `babel` converted and `webpack` bundled crossbrowser module version.
+#### with Browser
+
+#### Add `typeof-arguments.js` library to the HTML file.
+The library is located in `./dist/typeof-arguments.js` directory.  
+It is a webpack&babel bundled cross-browser library version.  
+The library is accessible as `typeofArguments` variable in the global *(window)* scope.
 
 ```html
-<script src="./src/typeof-arguments.min.js"></script>
-<script>
-  function test() {
-    typeofArguments(arguments, [String, Number]);
-  }
-</script>
+<head>
+  <script src='typeof-arguments.js'></script>
+  <script>
+    function test(name, age) {
+      typeofArguments(arguments, ['string', 'number|string|null']);
+    }
+    test('Nikola', 26);
+  </script>
+</head>
 ```
 
-
+# Tests
+```
+> git clone https://github.com/devrafalko/typeof-arguments.git
+> cd typeof-arguments
+> npm install
+> npm test        //run tests in node
+> npm test deep   //run tests in node with errors shown
+```
 
 # Usage
 ### `type(actual, expected[, callback])`
 ### `actual` **[Object]**
-* It should always indicate the enclosing function **`arguments`** object
+It should always indicate the enclosing function **`arguments`** object.
 
 ### `expected` **[Array]**
 * It should contain the [Array] list of **expected types** for each subsequent argument passed through the enclosing function.
@@ -39,7 +52,7 @@ It is a `babel` converted and `webpack` bundled crossbrowser module version.
 * The values of [Array] `expected` items indicate the expected types of the coherent `actual` arguments passed through the enclosing function.
 
 ```javascript
-test('Paul', 26);
+test('Nikola', 26);
 
 function test(name, age) {
   //the name should be of [String] type
@@ -49,58 +62,101 @@ function test(name, age) {
 ```
 
 ###  The `expected` Types
-There are three ways to check the type of the arguments:
+There are four ways to check the type of the arguments:
 * by **string expression** values
 * by **regular expression** values
 * by **constructor functions**, `null` or `undefined` values
+* by some of supported custom types
 
-#### 1. [String] expressions
-* Possible values: `'null'`, `'undefined'`, or any value equal to `constructor.name`, eg: `'string'`, `'number'`, `'regexp'`, `'array'`, `'object'`, `'boolean'`,`'buffer'`, etc.
-* The [String] value is case insensitive: `'String'`, `'string'`, `'StRiNg'` checks if the argument is of type [String].
-* The [String] value can contain **multiple** allowed types, separated with `|`. eg: `'array|object'` checks if the argument is of type [Array] **`OR`** of type [Object].
+> Mind, that the `typeof-arguments` library uses the `of-type` library as the dependency, to validate the types. If you feel confused how to use the types, see more samples [here](https://www.npmjs.com/package/of-type#samples).
+
+`[String]`
+* Possible values:  
+  * `'null'`, `'undefined'`  
+  * any value that equals to argument's `constructor.name`, eg:  
+  `'string'`, `'number'`, `'regexp'`, `'array'`, `'object'`, `'boolean'`,`'buffer'`, etc.
+* The [String] type is case insensitive:
+  * `'String'`, `'string'`, `'StRiNg'` checks if the argument is of `[String]` type
+  * `'RegExp'`, `'REGEXP'`, `'regexp'` checks if the argument is of `[RegExp]` type
+* The [String] type can contain multiple types, separated with `|`:
+  * `'array|object'` checks if the argument is of `[Array]` **`OR`** `[Object]` type
+  * `'undefined|null'` checks if the argument is of `undefined` **`OR`** `null` type
 
 ```javascript
-test('Paul', 26);
+test('Nikola', 26);
 
 function test() {
   type(arguments, ['string', 'number|string|null']);
 }
 ```
 
-#### 2. [RegExp] expressions
-* Possible values: `/null/`, `/undefined/`, or any value matching the `constructor.name`, eg: `/String/`, `/Number/`, `/RegExp/`, `/Array/`, `/Object/`, `/Boolean/`,`/Buffer/`, `/Promise/`, etc.
-* For the case insensitivity use `i` flag, eg: `/string/i`, `/regexp/i`, `/typeerror/i`
-* For **multiple** values use regexp `(x|y)` expression, eg: `/String|Number/`, `/TypeError|Error/`
-* Use another regexp features:
-  * eg. `/(Type|Range|Syntax)Error/` will match `TypeError`, `RangeError` and `SyntaxError`
-  * eg. `/[A-Z].+/` will match `String`, `Array`, but will not match `undefined`, `null`, etc.
+`[RegExp]`
+* Possible values: 
+  * `/null/`, `/undefined/`
+  * any value matching the argument's `constructor.name`, eg: `/String/`, `/Number/`, `/RegExp/`, `/Array/`, `/Object/`, `/Boolean/`,`/Buffer/`, `/Promise/`, etc.
+* Use all regular expression's features to match the type in a desired way:
+  * `/Str/`, `/Err/`, `/Reg/`, `/B/`
+  * `/.+Error$/`, `/^RegExp$/`, 
+  * `/^[A-Z][a-z]+$/`
+* For the case insensitivity use `i` flag:
+  * `/string/i`, `/regexp/i`, `/TYPEERROR/i`
+* For multiple values use regexp `(x|y)` expression:
+  * `/String|Number/`, `/TypeError|Error/`, `/(obj|str)/i`
 
 ```javascript
-test('Paul', 26);
+test('Nikola', 26);
 
 function test() {
   type(arguments, [/string/i, /number|string|null/i]);
 }
 ```
 
-#### 3. [null|undefined|Function] expressions
-* Possible values: `null`, `undefined` or any **constructor** object, eg: `String`, `TypeError`, `Promise`, `Array`, etc.
-* For **multiple** values use **array**, eg: `[String,Object,Array,null]`
+`[Function|Array|null|undefined]`
+* Possible values:
+  * `null`, `undefined`
+  * any `[Function]` constructor, eg: `String`, `TypeError`, `Promise`, `Array`, etc.
+* For multiple values use array:
+  * `[String, Object, Array, null]`
+  * `[null, undefined, Boolean]`
 
 ```javascript
-test('Paul', 26);
+test('Nikola', 26);
 
 function test() {
   type(arguments, [String, [Number, String, null]]);
 }
 ```
 
+> When you use **bundlers** or **minifiers**, use `[String|RegExp]` type **wisely** as bundlers may change the names of functions|constructors|classes in the output file and eg. `type(arguments, ['MyClass']);` that returns `true` before compilation, may return `false` after compilation, if the bundler minifies the `'MyClass'` constructor name.
+
 ### Extra types:
-* The value can be: `'arguments'` or `/arguments/`. It returns `true` if the argument is defined as the `arguments` Object
-* The value can be : `'instance'` or `/instance/`. It returns `true` if the argument is the **instance** of user **class** or **constructor**. It returns `false` for instances of built-in *(native)* constructors, *eg. for `[]`, `"hello world"`, `{ }`*
-* The value can be: `'truthy'` or `/truthy/`. It returns `true` if the argument has the value like: `"abc"`, `true`, `1`, `{ }`, `[]`,`function(){ }`, etc.
-* The value can be: `'falsy'` or `/falsy/`. It returns `true` if the argument has the value like: `""`, `false`, `0`, `null`, `undefined`, `NaN`, etc.
-* The value can be: `''` or `'any'` or `/any/` or `[]`, It returns `true` if the argument is of **any type**.
+
+`[String] 'arguments'` | `[RegExp] /arguments/`
+
+* The type `'arguments'` or `/arguments/` expects the passed argument to be the function's `arguments` object
+
+`[String] 'instance'` | `[RegExp] /instance/`
+* The type `'instance'` or `/instance/` expects the passed argument to be the instance of the user's class|constructor
+* It fails when the passed argument is an instance of built-in *(native)* constructor
+  * `[]`, `'hello world'`, `{}`
+* It fails for instances that are the `global`|`window`'s properties
+
+`[String] 'objectable'` | `[RegExp] /objectable/`
+* The type `'objectable'` or `/objectable/` expects the passed argument to be the object that is the instance of the `Object` constructor
+  * `{}`, `[]`, `new String('hello world')`, `new Boolean(1)`
+* It fails when the passed argument is a primitive value or a simple value
+  * `'hello world'`, `true`, `10`, `null`, `undefined`
+
+`[String] 'truthy'` | `[RegExp] /truthy/`
+* The type `'truthy'` or `/truthy/` expects the passed argument to be like:
+  * `'abc'`, `true`, `1`, `-1`, `{}`, `[]`, `function(){}`
+
+`[String] 'falsy'` | `[RegExp] /falsy/`
+* The type `'falsy'` or `/falsy/` expects the passed argument to be like:
+  * `''`, `false`, `0`, `null`, `undefined`, `NaN`
+
+`[String] 'any'` | `[RegExp] /any/` | `[Array] []` | `[String] ""`
+* The `type` `'any'` or `/any/` or empty array `[]` or empty string `""` expects the passed argument to be of any type
 
 ### `callback` **[Function]** *(optional)*
 * if **not passed**, the **TypeError** with **default message** will be **thrown** to the console, if the argument passed to the function is invalid.
@@ -125,7 +181,7 @@ function test() {
 ```javascript
 const type = require('typeof-arguments');
 
-hello('Paul', 26);
+hello('Nikola', 26);
 
 function hello(name, age) {
   type(arguments, [String, 'string|number'], (o) => {
@@ -154,15 +210,6 @@ function hello(paramA, paramB) {
 }
 ```
 
-# Tests
-```
-> git clone https://github.com/devrafalko/typeof-arguments.git
-> cd typeof-arguments
-> npm install
-> npm test
-> npm test deep //displays error messages
-```
-
 # Samples
 ```javascript
 const type = require('typeof-arguments');
@@ -180,7 +227,7 @@ test(10, 20, [1, 2, 3]);
 test(true, 20, null);
 //Invalid argument [0]. The [Boolean] argument has been passed, while the argument of type matching string expression "number|string" is expected.
 
-test({ name: 'Paul' }, false, /test/);
+test({ name: 'Nikola' }, false, /test/);
 //Invalid argument [0]. The [Object] argument has been passed, while the argument of type matching string expression "number|string" is expected.
 //Invalid argument [2]. The [RegExp] argument has been passed, while the argument of type matching string expression "null|array" is expected.
 
@@ -191,7 +238,6 @@ test(10);
 //Invalid argument [2]. The [undefined] argument has been passed, while the argument of type matching string expression "null|array" is expected.
 ```
 
-### more samples
 ```javascript
 const type = require('typeof-arguments');
 
@@ -219,7 +265,6 @@ test('hello', null);
 //no errors
 ```
 
-### more samples
 ```javascript
 const type = require('typeof-arguments');
 
@@ -230,23 +275,22 @@ function test(paramA, paramB) {
 test();
 //Invalid argument [0]. The [undefined] argument has been passed, while the argument of type [String] is expected.
 
-test('Paul', null, false, 10);
+test('Nikola', null, false, 10);
 //no errors
 
-test('Paul', null, false, 10, new TypeError('error'));
+test('Nikola', null, false, 10, new TypeError('error'));
 //no errors
 
-test('Paul', null, false, 10, false);
+test('Nikola', null, false, 10, false);
 //no errors
 
-test('Paul');
+test('Nikola');
 //Invalid argument [3]. The [undefined] argument has been passed, while the argument of type [Number] is expected.
 
-test('Paul', true, true, 10, new Error('error'));
+test('Nikola', true, true, 10, new Error('error'));
 //Invalid argument [4]. The [Error] <<truthy>> argument has been passed, while the argument of type matching regular expression /((syntax|type)error)|falsy/i is expected.
 ```
 
-### more samples
 ```javascript
 const type = require('typeof-arguments');
 

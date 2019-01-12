@@ -1,7 +1,5 @@
 /* global jasmine, describe, expect, it */
-const path = require('path');
-const type = require(path.resolve('./src/index.js'));
-const scenario = require('./scenarios-valid.js');
+import scenario from './data/scenarios-valid.js';
 
 describe('The module function should not throw error and run callback function',function(){
   it('when the expected array is empty',function(){
@@ -11,7 +9,7 @@ describe('The module function should not throw error and run callback function',
     expect(binded).not.toThrowError();
     expect(clb).not.toHaveBeenCalled();
     function test(){
-      return type(arguments,[],clb);
+      return this.type(arguments,[],clb);
     }
   });
 });
@@ -26,7 +24,7 @@ describe('The module function should not throw error and run callback function',
       expect(binded).not.toThrowError();
       expect(clb).not.toHaveBeenCalled();
       function test(){
-        return type(arguments,expected,clb);
+        return this.type(arguments,expected,clb);
       }
     });
   }

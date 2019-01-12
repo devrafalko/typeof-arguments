@@ -1,4 +1,4 @@
-module.exports = [
+export default [
   {
     actual:[null],
     expected:[String],

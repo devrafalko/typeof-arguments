@@ -1,7 +1,5 @@
 /* global jasmine, describe, expect, it */
-const path = require('path');
-const type = require(path.resolve('./src/index.js'));
-const scenario = require('./scenarios-invalid.js');
+import scenario from './data/scenarios-invalid.js';
 
 describe('When the argument is of invalid type, the module function',function(){
   describe('when callback is not defined, should throw TypeError with message',function(){
@@ -11,7 +9,7 @@ describe('When the argument is of invalid type, the module function',function(){
         let binded = test.apply.bind(test,this,actual);
         expect(binded).toThrowError(TypeError,oMessage);
         function test(){
-          type(arguments,expected);
+          this.type(arguments,expected);
         }
       });
     }
@@ -32,7 +30,7 @@ describe('When the argument is of invalid type, the module function',function(){
           message:oMessage
         }));
         function test(){
-          return type(arguments,expected,clb);
+          return this.type(arguments,expected,clb);
         }
       });
     }

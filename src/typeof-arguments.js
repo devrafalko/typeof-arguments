@@ -1,4 +1,4 @@
-const ofType = require('of-type');
+import ofType from 'of-type';
 
 class TypeofArguments {
   constructor(getArgumentsObject, getExpectedArray, callbackFunction) {
@@ -86,6 +86,6 @@ class TypeofArguments {
   }
 }
 
-module.exports = function typeofArguments() {
+export default function typeofArguments() {
   return new TypeofArguments(...arguments)();
-};
+}

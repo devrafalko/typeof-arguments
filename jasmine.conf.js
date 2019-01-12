@@ -1,10 +1,17 @@
-const Jasmine = require('jasmine');
+import Jasmine from 'jasmine';
+import { SpecReporter } from 'jasmine-spec-reporter';
+
 const jasmine = new Jasmine();
-const SpecReporter = require('jasmine-spec-reporter').SpecReporter;
-const deep = process.argv.slice(2)[0]==='deep';
+const deep = process.argv.slice(2)[0] === 'deep';
+
 jasmine.loadConfig({
-  spec_dir: 'tests/',
-  spec_files: ['tests*.js']
+  spec_dir: 'tests',
+  spec_files: [
+    '*.js'
+  ],
+  helpers: [
+    'helpers/*.js'
+  ],
 });
 
 jasmine.clearReporters();
@@ -14,7 +21,7 @@ jasmine.addReporter(new SpecReporter({
     displayStacktrace: true,
     displaySuccessful: !deep,
     displayFailed: true,
-    displayPending: true,
+    displayPending: !deep,
     displayDuration: false
   },
   summary: {

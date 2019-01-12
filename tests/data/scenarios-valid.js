@@ -1,4 +1,4 @@
-module.exports = [
+export default [
   {
     actual: ['Paul',26,'Warsaw',['js','mongodb','nodejs']],
     expected: [String,'any',/string|null/i,[Array,null]]

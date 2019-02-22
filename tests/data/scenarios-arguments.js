@@ -4,56 +4,56 @@ export default [
     expected:{name:10},
     oActual:'null',
     oExpected:'{name:10}',
-    message:/Invalid module argument. The first argument must be \[arguments\] Object./
+    message:/The \[0\] argument must be the \[arguments\] Object./
   },
   {
     actual:undefined,
     expected:undefined,
     oActual:'undefined',
     oExpected:'undefined',
-    message:/Invalid module argument. The first argument must be \[arguments\] Object./
+    message:/The \[0\] argument must be the \[arguments\] Object./
   },
   {
     actual:[1,2,3],
     expected:undefined,
     oActual:'[1,2,3]',
     oExpected:'undefined',
-    message:/Invalid module argument. The first argument must be \[arguments\] Object./
+    message:/The \[0\] argument must be the \[arguments\] Object./
   },
   {
     actual:(function(){return arguments;})(),
     expected:null,
     oActual:'(function(){return arguments;})()',
     oExpected:'null',
-    message:/Invalid module argument. The second argument must be of type \[Array\]./
+    message:/The \[1\] argument must be of type \[Array\]./
   },
   {
     actual:(function(){return arguments;})(),
     expected:null,
     oActual:'(function(){return arguments;})()',
     oExpected:'null',
-    message:/Invalid module argument. The second argument must be of type \[Array\]./
+    message:/The \[1\] argument must be of type \[Array\]./
   },
   {
     actual:(function(){return arguments;})(),
     expected:Number,
     oActual:'(function(){return arguments;})()',
     oExpected:'Number',
-    message:/Invalid module argument. The second argument must be of type \[Array\]./
+    message:/The \[1\] argument must be of type \[Array\]./
   },
   {
     actual:(function(){return arguments;})(),
     expected:null,
     oActual:'(function(){return arguments;})()',
     oExpected:'null',
-    message:/Invalid module argument. The second argument must be of type \[Array\]./
+    message:/The \[1\] argument must be of type \[Array\]./
   },
   {
     actual:(function(){return arguments;})(),
     expected:(function(){return arguments;})(),
     oActual:'(function(){return arguments;})()',
     oExpected:'(function(){return arguments;})()',
-    message:/Invalid module argument. The second argument must be of type \[Array\]./
+    message:/The \[1\] argument must be of type \[Array\]./
   },
   {
     actual:(function(){return arguments;})(),

@@ -1,15 +1,18 @@
-import ofType from 'of-type';
+import type from 'of-type';
 
 class TypeofArguments {
   constructor(getArgumentsObject, getExpectedArray, callbackFunction) {
-    this.validateArguments(getArgumentsObject, getExpectedArray);
-    for (let i = 0; i < getExpectedArray.length; i++) {
-      if (!ofType(getArgumentsObject[i], getExpectedArray[i])) {
-        let actual = this.getActualType(getArgumentsObject[i]);
-        let types = this.getExpectedTypes(getExpectedArray[i]);
-        let message = `Invalid argument [${i}]. The [${actual}] ${types.truthness}argument has been passed, while the ${types.message} is expected.`;
-        if (ofType(callbackFunction, 'function')) {
-          callbackFunction({ actual: actual, expected: types.expected, message: message, index: Number(i) });
+    if (!type(getArgumentsObject, 'arguments')) throw new TypeError('typeof-arguments: The [0] argument must be the [arguments] Object.');
+    if (!type(getExpectedArray, Array)) throw new TypeError('typeof-arguments: The [1] argument must be of type [Array].');
+    for (let index = 0; index < getExpectedArray.length; index++) {
+      if (!type(getArgumentsObject[index], getExpectedArray[index])) {
+        let actual = this.getActualType(getArgumentsObject[index]);
+        let types = this.getExpectedTypes(getExpectedArray[index]);
+        let textActual = `[${actual}] ${types.addons}argument`;
+        let textExpected = types.message;
+        let message = `Invalid argument [${index}]. The ${textActual} has been passed, while the ${textExpected} is expected.`;
+        if (type(callbackFunction, 'function')) {
+          callbackFunction({ index, actual, expected: types.expected, message, textActual, textExpected });
           return () => false;
         } else {
           throw new TypeError(message);
@@ -19,70 +22,68 @@ class TypeofArguments {
     return () => true;
   }
 
-  validateArguments(actual, expected) {
-    if (!ofType(actual, 'arguments')) throw new TypeError('typeof-arguments: Invalid module argument. The first argument must be [arguments] Object.');
-    if (!ofType(expected, Array)) throw new TypeError('typeof-arguments: Invalid module argument. The second argument must be of type [Array].');
-  }
-
   getActualType(actualValue) {
-    if (ofType(actualValue, null)) return 'null';
-    if (ofType(actualValue, undefined)) return 'undefined';
-    if (ofType(actualValue, 'arguments')) return 'arguments';
+    if (type(actualValue, null)) return 'null';
+    if (type(actualValue, undefined)) return 'undefined';
+    if (type(actualValue, 'arguments')) return 'arguments';
     return actualValue.constructor.name;
   }
 
   getExpectedTypes(expectedType) {
     const types = ['whenString', 'whenRegExp', 'whenObject', 'whenArray'];
-    for (let type of types) {
-      let check = this[type](expectedType);
+    for (let _type of types) {
+      let check = this[_type](expectedType);
       if (check) return check;
     }
     throw new TypeError('typeof-arguments: The expected type is not callable.');
   }
 
   whenString(stringType) {
-    if (!ofType(stringType, String)) return null;
+    if (!type(stringType, String)) return null;
     const msg = `argument of type matching string expression "${stringType}"`;
-    let truthness = '';
+    let truthness = '', objectable = '';
     stringType.split('|').forEach((i) => {
       if (i.toLowerCase() === 'truthy') truthness = '<<falsy>> ';
       if (i.toLowerCase() === 'falsy') truthness = '<<truthy>> ';
+      if (i.toLowerCase() === 'objectable') objectable = '<<non-objectable>> ';
     });
-    return { message: msg, truthness: truthness, expected: stringType };
+    return { message: msg, addons: truthness + objectable, expected: stringType };
   }
 
   whenRegExp(regType) {
-    if (!ofType(regType, RegExp)) return null;
+    if (!type(regType, RegExp)) return null;
     const msg = `argument of type matching regular expression ${regType}`;
-    return { message: msg, truthness: truthness(regType), expected: regType.toString() };
+    return { message: msg, addons: addons(regType), expected: regType.toString() };
 
-    function truthness(regType) {
+    function addons(regType) {
       const isCaseInsensitive = regType.flags.match(/i/);
       let str = regType.toString();
       str = isCaseInsensitive ? str.toLowerCase() : str;
-      if (str.match(/truthy/)) return '<<falsy>> ';
-      if (str.match(/falsy/)) return '<<truthy>> ';
-      return '';
+      let truthness = '', objectable = '';
+      if (str.match(/truthy/)) truthness = '<<falsy>> ';
+      if (str.match(/falsy/)) truthness = '<<truthy>> ';
+      if (str.match(/objectable/)) objectable = '<<non-objectable>> ';
+      return truthness + objectable;
     }
   }
 
   whenObject(objectType) {
-    if (ofType(objectType, null)) return { message: 'argument of type [null]', truthness: '', expected: 'null' };
-    if (ofType(objectType, undefined)) return { message: 'argument of type [undefined]', truthness: '', expected: 'undefined' };
-    if (ofType(objectType, Function)) return { message: `argument of type [${objectType.name}]`, truthness: '', expected: objectType.name };
+    if (type(objectType, null)) return { message: 'argument of type [null]', addons: '', expected: 'null' };
+    if (type(objectType, undefined)) return { message: 'argument of type [undefined]', addons: '', expected: 'undefined' };
+    if (type(objectType, Function)) return { message: `argument of type [${objectType.name}]`, addons: '', expected: objectType.name };
     return null;
   }
 
   whenArray(arrayTypes) {
-    if (!ofType(arrayTypes, Array)) return null;
+    if (!type(arrayTypes, Array)) return null;
     const types = {};
-    for (let type of arrayTypes) {
-      let exp = this.whenObject(type);
-      if (ofType(exp, null)) return null;
+    for (let _type of arrayTypes) {
+      let exp = this.whenObject(_type);
+      if (type(exp, null)) return null;
       types[exp.expected] = exp.expected;
     }
     const expected = Object.getOwnPropertyNames(types).join('|');
-    return { message: `argument of type [${expected}]`, truthness: '', expected };
+    return { message: `argument of type [${expected}]`, addons: '', expected };
   }
 }
 

@@ -3,6 +3,7 @@
 
 * Also see [`of-type`](https://www.npmjs.com/package/of-type) package to check if the given value|object is of expected type.
 * Also see [`typeof-properties`](https://www.npmjs.com/package/typeof-properties) to validate the object's properties' type.
+* Also see [`typeof-items`](https://www.npmjs.com/package/typeof-items) to validate the array's items' type
 
 # Implementation
 
@@ -177,6 +178,10 @@ function test() {
     indicates the type(s) expected by the user, eg. `"Array"`, `"Boolean|Number"`, `"/array|object/i"`
   * **`message`**  
     is the default error [String] message, that you can use eg. to log in the console
+  * **`textActual`**  
+    indicates the [String] textual actual type, eg. `"[undefined] <<falsy>> argument"`
+  * **`textExpected`**  
+    indicates the [String] textual expected type, eg. `"argument of type matching regular expression /String|null/"`
 
 ```javascript
 const type = require('typeof-arguments');

@@ -19,7 +19,7 @@
   "author": "Paweł Rafałko",
   "license": "MIT",
   "dependencies": {
-    "of-type": "^3.0.0"
+    "of-type": "^3.0.2"
   },
   "homepage": "https://github.com/devrafalko/typeof-arguments#readme",
   "bugs": {

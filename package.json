@@ -4,9 +4,9 @@
   "description": "Validate the type of arguments passed through the function.",
   "main": "dist/typeof-arguments.node.js",
   "scripts": {
-    "test": "babel-node jasmine.conf.js",
-    "start": "webpack --config webpack.dev.js",
-    "build": "webpack --config webpack.prod.js"
+    "start": "webpack --env.dev",
+    "build": "webpack --env.prod",
+    "test": "babel-node jasmine.conf.js"
   },
   "keywords": [
     "typeof",
@@ -19,7 +19,7 @@
   "author": "Paweł Rafałko",
   "license": "MIT",
   "dependencies": {
-    "of-type": "^3.0.2"
+    "of-type": "^3.0.3"
   },
   "homepage": "https://github.com/devrafalko/typeof-arguments#readme",
   "bugs": {
@@ -30,17 +30,17 @@
     "url": "git+https://github.com/devrafalko/typeof-arguments.git"
   },
   "devDependencies": {
-    "@babel/cli": "^7.1.0",
-    "@babel/core": "^7.0.1",
-    "@babel/node": "^7.0.0",
-    "@babel/preset-env": "^7.0.0",
-    "babel-loader": "^8.0.2",
-    "jasmine": "^3.3.1",
-    "jasmine-spec-reporter": "^4.2.1",
-    "uglifyjs-webpack-plugin": "^2.1.1",
-    "webpack": "^4.19.1",
-    "webpack-cli": "^3.1.1",
-    "webpack-merge": "^4.1.4",
-    "webpack-node-externals": "^1.7.2"
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.11.1",
+    "@babel/node": "^7.10.5",
+    "@babel/preset-env": "^7.11.0",
+    "babel-loader": "^8.1.0",
+    "jasmine": "^3.6.1",
+    "jasmine-spec-reporter": "^5.0.2",
+    "terser-webpack-plugin": "^4.1.0",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-merge": "^5.1.1",
+    "webpack-node-externals": "^2.5.1"
   }
 }

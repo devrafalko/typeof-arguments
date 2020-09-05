@@ -1,0 +1,10 @@
+.git
+dist/typeof-arguments.js
+node_modules
+src
+tests
+.babelrc
+.eslintrc.json
+.gitignore
+jasmine.conf.js
+webpack.config.js
